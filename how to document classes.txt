@@ -1,0 +1,23 @@
+/**
+ * This is a JavaDoc comment for the MyClass class.
+ * It provides an overview of the class.
+ */
+public class MyClass {
+
+    /**
+     * This is a JavaDoc comment for the addNumbers method.
+     * It provides a description of what the method does, including any parameters,
+     * return values, and exceptions it might throw.
+     *
+     * @param a The first operand.
+     * @param b The second operand.
+     * @return The sum of the two operands.
+     * @throws IllegalArgumentException If either operand is negative.
+     */
+    public int addNumbers(int a, int b) throws IllegalArgumentException {
+        if (a < 0 || b < 0) {
+            throw new IllegalArgumentException("Operands must be non-negative.");
+        }
+        return a + b;
+    }
+}

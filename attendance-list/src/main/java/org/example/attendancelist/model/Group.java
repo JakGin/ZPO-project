@@ -24,4 +24,8 @@ public class Group {
     public Group(String groupName) {
         this.name = groupName;
     }
+
+    public String getName() {
+        return name;
+    }
 }

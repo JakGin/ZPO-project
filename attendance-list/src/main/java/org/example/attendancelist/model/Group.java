@@ -25,7 +25,28 @@ public class Group {
         this.name = groupName;
     }
 
+    public Integer getId() {
+        return id;
+    }
     public String getName() {
         return name;
+    }
+
+    @Override
+    public String toString() {
+        return "Group{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", students=" + students +
+                ", classDates=" + classDates +
+                '}';
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

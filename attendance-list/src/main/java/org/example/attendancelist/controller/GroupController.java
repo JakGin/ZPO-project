@@ -19,7 +19,6 @@ public class GroupController {
     @ResponseStatus(code = HttpStatus.CREATED)
     public void createGroup(@RequestBody Group group) {
         groupRepository.save(group);
-        System.out.println("here");
     }
 
     @GetMapping(path="")

@@ -28,6 +28,9 @@ public class Student {
         this.group = group;
     }
 
+    public Integer getId() {
+        return id;
+    }
     public String getName() {
         return name;
     }
@@ -38,5 +41,32 @@ public class Student {
 
     public Group getGroup() {
         return group;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", group=" + group +
+                ", attendances=" + attendances +
+                '}';
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
     }
 }

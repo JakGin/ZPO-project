@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 @RestController
@@ -31,12 +32,33 @@ public class ClassDateController {
                     .body("Group with id " + classDate.getGroup().getId() + " does not exist");
         }
 
+        if (classDateRepository.existsByGroupAndDate(group.get(), classDate.getDate())) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("Class date for group " + group.get().getName()
+                            + " on " + classDate.getDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) +
+                            " already exists");
+        }
+
         classDateRepository.save(classDate);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping(path="")
     public Iterable<ClassDate> getClassDates() {
         return classDateRepository.findAll();
+    }
+
+    @GetMapping(path="{id}")
+    public ResponseEntity<ClassDate> getClassDate(@PathVariable Integer id) {
+        Optional<ClassDate> classDate = classDateRepository.findById(id);
+        if (classDate.isEmpty()) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .build();
+        }
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(classDate.get());
     }
 }

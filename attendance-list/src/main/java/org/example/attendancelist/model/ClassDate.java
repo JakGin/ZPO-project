@@ -9,7 +9,7 @@ import java.util.List;
 @Table(name = "classDates")
 public class ClassDate {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column(nullable = false)
     private LocalDateTime date;

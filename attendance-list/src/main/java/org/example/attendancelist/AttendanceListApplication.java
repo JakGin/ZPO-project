@@ -19,10 +19,14 @@ public class AttendanceListApplication {
     @Bean
     public CommandLineRunner demo(GroupRepository repository, StudentRepository studentRepository) {
         return (args) -> {
-            //repository.save(new Group("Group 1"));
-            //repository.save(new Group("Group 2"));
-            //repository.save(new Group("Group 3"));
-            //studentRepository.save(new Student("Student 1", "students_surname", (Group) repository.findById(1).get()));
+            boolean initializeDateBase = false;
+            if (initializeDateBase) {
+                repository.save(new Group("Group 1"));
+                repository.save(new Group("Group 2"));
+                repository.save(new Group("Group 3"));
+                studentRepository.save(new Student("Student 1", "students_surname", (Group) repository.findById(1).get()));
+
+            }
         };
     }
 }

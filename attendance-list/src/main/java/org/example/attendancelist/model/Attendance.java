@@ -9,7 +9,8 @@ public class Attendance {
     @GeneratedValue
     private Integer id;
     @Column
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private Status status;
     @ManyToOne
     @JoinColumn(name = "studentId")
     private Student student;
@@ -25,11 +26,11 @@ public class Attendance {
         this.id = id;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
@@ -59,3 +60,4 @@ public class Attendance {
                 '}';
     }
 }
+

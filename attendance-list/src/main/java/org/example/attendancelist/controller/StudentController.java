@@ -25,6 +25,12 @@ public class StudentController {
     @PostMapping(path="")
     @ResponseStatus(code = HttpStatus.CREATED)
     public ResponseEntity<String> createStudent(@RequestBody Student student) {
+        if (! isIdValid(student.getId())) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("Student ID must be 6 digits long");
+        }
+
         Optional<Group> group = groupRepository.findById(student.getGroup().getId());
         if (group.isEmpty()) {
             return ResponseEntity
@@ -33,11 +39,29 @@ public class StudentController {
         }
 
         studentRepository.save(student);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping(path="")
+    @GetMapping("")
     public Iterable<Student> getStudents() {
         return studentRepository.findAll();
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<Student> getStudent(@PathVariable Integer id) {
+        Optional<Student> student = studentRepository.findById(id);
+        if (student.isEmpty()) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .build();
+        }
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(student.get());
+    }
+
+    public static boolean isIdValid(Integer id) {
+        return id >= 100000 && id <= 999999;
     }
 }

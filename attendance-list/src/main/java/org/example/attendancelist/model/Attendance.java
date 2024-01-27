@@ -18,6 +18,15 @@ public class Attendance {
     @JoinColumn(name = "classDateId")
     private ClassDate classDate;
 
+    public Attendance() {
+    }
+
+    public Attendance(ClassDate classDate, Student student, Status status) {
+        this.status = status;
+        this.student = student;
+        this.classDate = classDate;
+    }
+
     public Integer getId() {
         return id;
     }

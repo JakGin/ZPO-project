@@ -21,7 +21,8 @@ public class Student {
 
     public Student() {}
 
-    public Student(String name, String surname, Group group) {
+    public Student(Integer id, String name, String surname, Group group) {
+        this.id = id;
         this.name = name;
         this.surname = surname;
         this.group = group;

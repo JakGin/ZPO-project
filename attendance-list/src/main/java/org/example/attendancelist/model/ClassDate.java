@@ -19,6 +19,14 @@ public class ClassDate {
     @OneToMany(mappedBy = "classDate")
     private List<Attendance> attendances;
 
+    public ClassDate() {
+    }
+
+    public ClassDate(LocalDateTime date, Group group) {
+        this.date = date;
+        this.group = group;
+    }
+
     public Integer getId() {
         return id;
     }

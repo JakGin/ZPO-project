@@ -2,15 +2,16 @@ package org.example.attendancelist.controller;
 
 import org.example.attendancelist.model.Attendance;
 import org.example.attendancelist.model.ClassDate;
+import org.example.attendancelist.model.Status;
 import org.example.attendancelist.model.Student;
 import org.example.attendancelist.repository.AttendanceRepository;
 import org.example.attendancelist.repository.ClassDateRepository;
-import org.example.attendancelist.repository.GroupRepository;
 import org.example.attendancelist.repository.StudentRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.Optional;
 
 @RestController
@@ -22,8 +23,7 @@ public class AttendanceController {
 
     public AttendanceController(AttendanceRepository attendanceRepository,
                                 StudentRepository studentRepository,
-                                ClassDateRepository classDateRepository,
-                                GroupRepository groupRepository) {
+                                ClassDateRepository classDateRepository) {
         this.attendanceRepository = attendanceRepository;
         this.studentRepository = studentRepository;
         this.classDateRepository = classDateRepository;
@@ -51,7 +51,31 @@ public class AttendanceController {
     }
 
     @GetMapping(path="")
-    public Iterable<Attendance> getAttendance() {
+    public Iterable<Attendance> getAttendance(@RequestParam(required = false) Integer studentId,
+                                              @RequestParam(required = false) Integer classDateId,
+                                              @RequestParam(required = false) Integer id,
+                                              @RequestParam(required = false) String status) {
+        if (id != null) {
+            Optional<Attendance> attendance = attendanceRepository.findById(id);
+            return attendance.map(Collections::singletonList).orElse(Collections.emptyList());
+        }
+
+        if (studentId != null && classDateId != null && status != null) {
+            return attendanceRepository.findByStudentIdAndClassDateIdAndStatus(studentId, classDateId, Status.valueOf(status));
+        } else if (studentId != null && classDateId != null) {
+            return attendanceRepository.findByStudentIdAndClassDateId(studentId, classDateId);
+        } else if (studentId != null && status != null) {
+            return attendanceRepository.findByStudentIdAndStatus(studentId, Status.valueOf(status));
+        } else if (classDateId != null && status != null) {
+            return attendanceRepository.findByClassDateIdAndStatus(classDateId, Status.valueOf(status));
+        } else if (studentId != null) {
+            return attendanceRepository.findByStudentId(studentId);
+        } else if (classDateId != null) {
+            return attendanceRepository.findByClassDateId(classDateId);
+        } else if (status != null) {
+            return attendanceRepository.findByStatus(Status.valueOf(status));
+        }
+
         return attendanceRepository.findAll();
     }
 }

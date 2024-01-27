@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 @Table(name = "attendances")
 public class Attendance {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     @Column
     @Enumerated(EnumType.STRING)

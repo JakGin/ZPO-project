@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.Optional;
 
 @RestController
@@ -42,23 +43,30 @@ public class StudentController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping("")
-    public Iterable<Student> getStudents() {
-        return studentRepository.findAll();
-    }
-
-    @GetMapping("{id}")
-    public ResponseEntity<Student> getStudent(@PathVariable Integer id) {
-        Optional<Student> student = studentRepository.findById(id);
-        if (student.isEmpty()) {
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .build();
+    @GetMapping(path="")
+    public Iterable<Student> getStudents(@RequestParam(required = false) Integer id, @RequestParam(required = false) String name,
+                                         @RequestParam(required = false) String surname, @RequestParam(required = false) Integer groupId) {
+        if (id != null) {
+            Optional<Student> student = studentRepository.findById(id);
+            return student.map(Collections::singletonList).orElse(Collections.emptyList());
         }
 
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(student.get());
+        if (name != null && surname != null && groupId != null)
+            return studentRepository.findByNameAndSurnameAndGroupId(name, surname, groupId);
+        else if (name != null && surname != null)
+            return studentRepository.findByNameAndSurname(name, surname);
+        else if (name != null && groupId != null)
+            return studentRepository.findByNameAndGroupId(name, groupId);
+        else if (surname != null && groupId != null)
+            return studentRepository.findBySurnameAndGroupId(surname, groupId);
+        else if (name != null)
+            return studentRepository.findByName(name);
+        else if (surname != null)
+            return studentRepository.findBySurname(surname);
+        else if (groupId != null)
+            return studentRepository.findByGroupId(groupId);
+
+        return studentRepository.findAll();
     }
 
     public static boolean isIdValid(Integer id) {

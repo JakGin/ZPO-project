@@ -12,28 +12,54 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collection;
 import java.util.List;
 
 import static org.example.attendancelist.model.Status.*;
 
+/**
+ * Spring Boot application for managing attendance lists.
+ *
+ * The application initializes the database with sample data on startup using CommandLineRunner.
+ * It creates groups, students, class dates, and attendance records for demonstration purposes.
+ *
+ * @see org.springframework.boot.autoconfigure.SpringBootApplication
+ * @see CommandLineRunner
+ */
 @SpringBootApplication
 public class AttendanceListApplication {
 
+    /**
+     * Main method to run the Spring Boot application.
+     *
+     * @param args Command-line arguments.
+     */
     public static void main(String[] args) {
         SpringApplication.run(AttendanceListApplication.class, args);
     }
 
+    /**
+     * Bean for initializing the database with sample data.
+     * If the database is not empty, the bean does nothing.
+     * Otherwise, it creates groups, students, class dates, and attendance records.
+     *
+     * @param groupRepository      Repository for managing groups.
+     * @param studentRepository    Repository for managing students.
+     * @param classDateRepository  Repository for managing class dates.
+     * @param attendanceRepository Repository for managing attendance records.
+     * @return CommandLineRunner for initializing the database.
+     */
     @Bean
     public CommandLineRunner databaseInitializer(GroupRepository groupRepository,
                                                  StudentRepository studentRepository,
                                                  ClassDateRepository classDateRepository,
                                                  AttendanceRepository attendanceRepository) {
         return (args) -> {
-            boolean initializeDateBase = true;
-            if (!initializeDateBase) {
+            if (!isEmptyDatabase(groupRepository, studentRepository, classDateRepository, attendanceRepository)) {
                 return;
             }
 
@@ -100,5 +126,24 @@ public class AttendanceListApplication {
 
             attendanceRepository.saveAll(List.of(attendance1, attendance2, attendance3, attendance4, attendance5, attendance6, attendance7, attendance8, attendance9, attendance10, attendance11));
         };
+    }
+
+    /**
+     * Checks if the database is empty.
+     *
+     * @param groupRepository      Repository for managing groups.
+     * @param studentRepository    Repository for managing students.
+     * @param classDateRepository  Repository for managing class dates.
+     * @param attendanceRepository Repository for managing attendance records.
+     * @return {@code true} if the database is empty, {@code false} otherwise.
+     */
+    private boolean isEmptyDatabase(GroupRepository groupRepository,
+                                    StudentRepository studentRepository,
+                                    ClassDateRepository classDateRepository,
+                                    AttendanceRepository attendanceRepository) {
+        return CollectionUtils.isEmpty((Collection<?>) groupRepository.findAll()) &&
+               CollectionUtils.isEmpty((Collection<?>) studentRepository.findAll()) &&
+               CollectionUtils.isEmpty((Collection<?>) classDateRepository.findAll()) &&
+               CollectionUtils.isEmpty((Collection<?>) attendanceRepository.findAll());
     }
 }

@@ -16,7 +16,7 @@ public class ClassDate {
     @ManyToOne
     @JoinColumn(name = "groupId")
     private Group group;
-    @OneToMany(mappedBy = "classDate")
+    @OneToMany(mappedBy = "classDate", cascade = CascadeType.ALL)
     private List<Attendance> attendances;
 
     public ClassDate() {

@@ -2,6 +2,7 @@ package org.example.attendancelist.controller;
 
 import org.example.attendancelist.model.Group;
 import org.example.attendancelist.repository.GroupRepository;
+import org.example.attendancelist.repository.StudentRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,9 +14,11 @@ import java.util.Optional;
 public class GroupController {
 
     private final GroupRepository groupRepository;
+    private final StudentRepository studentRepository;
 
-    public GroupController(GroupRepository groupRepository) {
+    public GroupController(GroupRepository groupRepository, StudentRepository studentRepository) {
         this.groupRepository = groupRepository;
+        this.studentRepository = studentRepository;
     }
 
     @PostMapping(path="")
@@ -35,5 +38,11 @@ public class GroupController {
             return group.map(Collections::singletonList).orElse(Collections.emptyList());
         }
         return groupRepository.findAll();
+    }
+
+    @DeleteMapping(path="")
+    public void deleteGroup(@RequestParam Integer id) {
+        studentRepository.updateGroupIdToNull(id);
+        groupRepository.deleteById(id);
     }
 }

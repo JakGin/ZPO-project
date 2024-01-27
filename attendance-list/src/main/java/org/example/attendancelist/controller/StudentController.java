@@ -69,6 +69,48 @@ public class StudentController {
         return studentRepository.findAll();
     }
 
+    @DeleteMapping(path="")
+    public void deleteStudent(@RequestParam Integer id) {
+        studentRepository.deleteById(id);
+    }
+
+    @PutMapping(path="/addToGroup")
+    public ResponseEntity<String> addStudentToGroup(@RequestParam Integer studentId, @RequestParam Integer groupId) {
+        Optional<Student> student = studentRepository.findById(studentId);
+        if (student.isEmpty()) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("Student with id " + studentId + " does not exist");
+        }
+
+        Optional<Group> group = groupRepository.findById(groupId);
+        if (group.isEmpty()) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("Group with id " + groupId + " does not exist");
+        }
+
+        student.get().setGroup(group.get());
+        studentRepository.save(student.get());
+
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @PutMapping(path="/deleteFromGroup")
+    public ResponseEntity<String> deleteStudentFromGroup(@RequestParam Integer studentId) {
+        Optional<Student> student = studentRepository.findById(studentId);
+        if (student.isEmpty()) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("Student with id " + studentId + " does not exist");
+        }
+
+        student.get().setGroup(null);
+        studentRepository.save(student.get());
+
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
     public static boolean isIdValid(Integer id) {
         return id >= 100000 && id <= 999999;
     }

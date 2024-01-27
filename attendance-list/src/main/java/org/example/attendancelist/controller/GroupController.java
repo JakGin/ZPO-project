@@ -29,14 +29,12 @@ public class GroupController {
 
     @GetMapping(path="")
     public Iterable<Group> getGroups(@RequestParam(required = false) String name, @RequestParam(required = false) Integer id) {
-        if (name != null && id != null)
-            return groupRepository.findByIdAndName(id, name);
-        else if (name != null)
-            return groupRepository.findByName(name);
-        else if (id != null) {
+        if (id != null) {
             Optional<Group> group = groupRepository.findById(id);
             return group.map(Collections::singletonList).orElse(Collections.emptyList());
-        }
+        }  else if (name != null)
+            return groupRepository.findByName(name);
+
         return groupRepository.findAll();
     }
 

@@ -62,6 +62,13 @@ public class AttendanceController {
                     .body("Class date with id " + attendance.getClassDate().getId() + " does not exist");
         }
 
+        if (student.get().getGroup() == null || classDate.get().getGroup() == null
+                || ! student.get().getGroup().getId().equals(classDate.get().getGroup().getId())) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("Student and class date must belong to the same group");
+        }
+
         attendanceRepository.save(attendance);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

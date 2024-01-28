@@ -32,6 +32,11 @@ public class AttendanceController {
     @PostMapping("")
     @ResponseStatus(code = HttpStatus.CREATED)
     public ResponseEntity<String> createAttendance(@RequestBody Attendance attendance) {
+        if (attendance.getStatus() == null) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("Status must be specified");
+        }
         if (attendance.getStudent() == null || attendance.getStudent().getId() == null) {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
@@ -50,7 +55,6 @@ public class AttendanceController {
                     .status(HttpStatus.BAD_REQUEST)
                     .body("Class date ID must be specified");
         }
-
         Optional<ClassDate> classDate = classDateRepository.findById(attendance.getClassDate().getId());
         if (classDate.isEmpty()) {
             return ResponseEntity

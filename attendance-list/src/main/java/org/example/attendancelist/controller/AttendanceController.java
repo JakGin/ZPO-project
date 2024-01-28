@@ -32,11 +32,23 @@ public class AttendanceController {
     @PostMapping("")
     @ResponseStatus(code = HttpStatus.CREATED)
     public ResponseEntity<String> createAttendance(@RequestBody Attendance attendance) {
+        if (attendance.getStudent() == null || attendance.getStudent().getId() == null) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("Student ID must be specified");
+        }
+
         Optional<Student> student = studentRepository.findById(attendance.getStudent().getId());
         if (student.isEmpty()) {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
                     .body("Student with id " + attendance.getStudent().getId() + " does not exist");
+        }
+
+        if (attendance.getClassDate() == null || attendance.getClassDate().getId() == null) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("Class date ID must be specified");
         }
 
         Optional<ClassDate> classDate = classDateRepository.findById(attendance.getClassDate().getId());

@@ -28,6 +28,12 @@ public class ClassDateController {
     @PostMapping("")
     @ResponseStatus(code = HttpStatus.CREATED)
     public ResponseEntity<String> createClassDate(@RequestBody ClassDate classDate) {
+        if (classDate.getGroup() == null || classDate.getGroup().getId() == null) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("Group ID must be specified");
+        }
+
         Optional<Group> group = groupRepository.findById(classDate.getGroup().getId());
         if (group.isEmpty()) {
             return ResponseEntity
@@ -35,18 +41,17 @@ public class ClassDateController {
                     .body("Group with id " + classDate.getGroup().getId() + " does not exist");
         }
 
+        if (classDate.getDate() == null || ! isDateValid(classDate.getDate())) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("Date must be specified and valid (minutes must be 0, 15, 30 or 45 and seconds 0) ");
+        }
         if (classDateRepository.existsByGroupAndDate(group.get(), classDate.getDate())) {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
                     .body("Class date for group " + group.get().getName()
                             + " on " + classDate.getDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")) +
                             " already exists");
-        }
-
-        if (! isDateValid(classDate.getDate())){
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .body("Not valid date");
         }
 
         classDateRepository.save(classDate);

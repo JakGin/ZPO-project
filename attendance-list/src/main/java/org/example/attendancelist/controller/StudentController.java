@@ -26,17 +26,19 @@ public class StudentController {
     @PostMapping(path="")
     @ResponseStatus(code = HttpStatus.CREATED)
     public ResponseEntity<String> createStudent(@RequestBody Student student) {
-        if (! isIdValid(student.getId())) {
+        if (student.getId() == null || ! isIdValid(student.getId())) {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
                     .body("Student ID must be 6 digits long");
         }
 
-        Optional<Group> group = groupRepository.findById(student.getGroup().getId());
-        if (group.isEmpty()) {
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .body("Group with id " + student.getGroup().getId() + " does not exist");
+        if (student.getGroup() != null && student.getGroup().getId() != null) {
+            Optional<Group> group = groupRepository.findById(student.getGroup().getId());
+            if (group.isEmpty()) {
+                return ResponseEntity
+                        .status(HttpStatus.BAD_REQUEST)
+                        .body("Group with id " + student.getGroup().getId() + " does not exist");
+            }
         }
 
         studentRepository.save(student);

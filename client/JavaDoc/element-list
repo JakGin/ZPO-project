@@ -1,0 +1,6 @@
+module:com.example.client
+com.example.client
+com.example.client.attendance
+com.example.client.classDate
+com.example.client.group
+com.example.client.student

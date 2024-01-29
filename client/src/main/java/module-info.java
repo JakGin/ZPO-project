@@ -21,5 +21,8 @@ module com.example.client {
     opens com.example.client to javafx.fxml, gson;
     exports com.example.client;
     exports com.example.client.group;
+    exports com.example.client.attendance;
+    exports com.example.client.student;
+    exports com.example.client.classDate;
     opens com.example.client.group to gson, javafx.fxml;
 }

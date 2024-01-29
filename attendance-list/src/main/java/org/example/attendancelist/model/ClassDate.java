@@ -35,7 +35,7 @@ public class ClassDate {
     /**
      * List of attendances associated with this class date.
      */
-    @OneToMany(mappedBy = "classDate")
+    @OneToMany(mappedBy = "classDate", cascade = CascadeType.ALL)
     private List<Attendance> attendances;
 
     /**

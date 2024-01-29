@@ -35,7 +35,7 @@ public class Group {
     /**
      * List of class dates associated with this group.
      */
-    @OneToMany(mappedBy = "group")
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<ClassDate> classDates;
 

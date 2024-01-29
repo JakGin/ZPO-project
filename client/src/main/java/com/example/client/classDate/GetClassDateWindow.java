@@ -161,7 +161,7 @@ public class GetClassDateWindow {
             } catch (Exception ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Błąd");
-                alert.setHeaderText("Błąd podczas pobierania studenta/ów");
+                alert.setHeaderText("Błąd podczas pobierania zajęć");
                 alert.setContentText(ex.getMessage());
                 alert.showAndWait();
             }
@@ -180,7 +180,7 @@ public class GetClassDateWindow {
 
         newStage.setScene(newScene);
 
-        newStage.setTitle("Pobierz studenta/ów");
+        newStage.setTitle("Pobierz zajęcia");
         newStage.show();
 
         newStage.setOnCloseRequest(e -> {

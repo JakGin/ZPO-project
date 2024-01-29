@@ -114,7 +114,7 @@ public class GetAttendanceWindow {
 
         attendanceTable.getColumns().addAll(idColumn, statusColumn, dateColumn, studentColumn);
 
-        Button fetchButton = new Button("Pobierz zajęcia");
+        Button fetchButton = new Button("Pobierz obecności");
         fetchButton.setStyle("-fx-font-size: 15px;");
         fetchButton.setOnAction(e -> {
             try {
@@ -137,7 +137,7 @@ public class GetAttendanceWindow {
             } catch (Exception ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Błąd");
-                alert.setHeaderText("Błąd podczas pobierania studenta/ów");
+                alert.setHeaderText("Błąd podczas pobierania obecności");
                 alert.setContentText(ex.getMessage());
                 alert.showAndWait();
             }
@@ -156,7 +156,7 @@ public class GetAttendanceWindow {
 
         newStage.setScene(newScene);
 
-        newStage.setTitle("Pobierz studenta/ów");
+        newStage.setTitle("Pobierz obecności");
         newStage.show();
 
         newStage.setOnCloseRequest(e -> {

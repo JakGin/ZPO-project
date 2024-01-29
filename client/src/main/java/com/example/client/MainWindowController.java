@@ -163,7 +163,7 @@ public class MainWindowController {
             GetAttendanceWindow.createGetAttendanceLayout();
         });
 
-        Button postAttendanceButton = new Button("Dodaj obecności");
+        Button postAttendanceButton = new Button("Dodaj obecność");
         postAttendanceButton.setStyle("-fx-font-size: 15px;");
         postAttendanceButton.setOnAction(e -> {
             mainStage.close();

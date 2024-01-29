@@ -1,5 +1,6 @@
 package org.example.attendancelist.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -28,12 +29,14 @@ public class Group {
      * List of students belonging to this group.
      */
     @OneToMany(mappedBy = "group")
+    @JsonIgnore
     private List<Student> students;
 
     /**
      * List of class dates associated with this group.
      */
-    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "group")
+    @JsonIgnore
     private List<ClassDate> classDates;
 
     /**

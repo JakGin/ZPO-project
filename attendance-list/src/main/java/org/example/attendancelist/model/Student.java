@@ -1,5 +1,6 @@
 package org.example.attendancelist.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -40,6 +41,7 @@ public class Student {
      * List of attendances associated with the student.
      */
     @OneToMany(mappedBy = "student")
+    @JsonIgnore
     private List<Attendance> attendances;
 
     /**

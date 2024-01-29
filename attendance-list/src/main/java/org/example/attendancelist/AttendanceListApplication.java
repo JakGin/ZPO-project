@@ -114,20 +114,6 @@ public class AttendanceListApplication {
             ClassDate classDate11 = new ClassDate(date11, group1);
 
             classDateRepository.saveAll(List.of(classDate1, classDate2, classDate3, classDate4, classDate5, classDate6, classDate7, classDate8, classDate9, classDate10, classDate11));
-
-            Attendance attendance1 = new Attendance(classDate1, marek, PRESENT);
-            Attendance attendance2 = new Attendance(classDate2, john, PRESENT);
-            Attendance attendance3 = new Attendance(classDate3, charlie, ABSENT);
-            Attendance attendance4 = new Attendance(classDate4, diana, PRESENT);
-            Attendance attendance5 = new Attendance(classDate5, edward, LATE);
-            Attendance attendance6 = new Attendance(classDate6, frank, ABSENT);
-            Attendance attendance7 = new Attendance(classDate7, grace, PRESENT);
-            Attendance attendance8 = new Attendance(classDate8, henry, ABSENT);
-            Attendance attendance9 = new Attendance(classDate9, isabel, EXCUSED);
-            Attendance attendance10 = new Attendance(classDate10, jack, PRESENT);
-            Attendance attendance11 = new Attendance(classDate11, frank, PRESENT);
-
-            attendanceRepository.saveAll(List.of(attendance1, attendance2, attendance3, attendance4, attendance5, attendance6, attendance7, attendance8, attendance9, attendance10, attendance11));
         };
     }
 

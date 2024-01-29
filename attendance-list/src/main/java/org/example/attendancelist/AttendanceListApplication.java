@@ -23,7 +23,6 @@ import static org.example.attendancelist.model.Status.*;
 
 /**
  * Spring Boot application for managing attendance lists.
- *
  * The application initializes the database with sample data on startup using CommandLineRunner.
  * It creates groups, students, class dates, and attendance records for demonstration purposes.
  *
@@ -32,7 +31,6 @@ import static org.example.attendancelist.model.Status.*;
  */
 @SpringBootApplication
 public class AttendanceListApplication {
-
     /**
      * Main method to run the Spring Boot application.
      *
@@ -41,6 +39,11 @@ public class AttendanceListApplication {
     public static void main(String[] args) {
         SpringApplication.run(AttendanceListApplication.class, args);
     }
+
+    /**
+     * Default constructor for the AttendanceListApplication class.
+     */
+    public AttendanceListApplication() {}
 
     /**
      * Bean for initializing the database with sample data.

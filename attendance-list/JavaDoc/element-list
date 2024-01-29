@@ -1,0 +1,4 @@
+org.example.attendancelist
+org.example.attendancelist.controller
+org.example.attendancelist.model
+org.example.attendancelist.repository

@@ -14,17 +14,36 @@ import java.time.format.DateTimeParseException;
 import java.util.Collections;
 import java.util.Optional;
 
+/**
+ * Controller class for managing class dates.
+ * Provides endpoints for creating and retrieving class dates.
+ *
+ * @see org.springframework.web.bind.annotation.RestController
+ * @see org.springframework.web.bind.annotation.RequestMapping
+ */
 @RestController
 @RequestMapping(path="/api/classDates")
 public class ClassDateController {
     private final ClassDateRepository classDateRepository;
     private final GroupRepository groupRepository;
 
+    /**
+     * Constructor for ClassDateController.
+     *
+     * @param classDateRepository Repository for managing class dates.
+     * @param groupRepository     Repository for managing groups.
+     */
     public ClassDateController(ClassDateRepository classDateRepository, GroupRepository groupRepository) {
         this.classDateRepository = classDateRepository;
         this.groupRepository = groupRepository;
     }
 
+    /**
+     * Endpoint for creating a new class date.
+     *
+     * @param classDate The ClassDate object to be created.
+     * @return ResponseEntity indicating the success or failure of the operation.
+     */
     @PostMapping("")
     @ResponseStatus(code = HttpStatus.CREATED)
     public ResponseEntity<String> createClassDate(@RequestBody ClassDate classDate) {
@@ -58,6 +77,14 @@ public class ClassDateController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    /**
+     * Endpoint for retrieving class dates based on specified parameters.
+     *
+     * @param id      The ID of the class date to be retrieved.
+     * @param date    The date parameter for filtering class dates.
+     * @param groupId The group ID parameter for filtering class dates.
+     * @return Iterable of ClassDate objects based on the specified parameters.
+     */
     @GetMapping("")
     public Iterable<ClassDate> getClassDates(@RequestParam(required = false) Integer id,
                                              @RequestParam(required = false) String date,
@@ -88,6 +115,12 @@ public class ClassDateController {
         return classDateRepository.findAll();
     }
 
+    /**
+     * Checks if the given date is valid for class scheduling.
+     *
+     * @param date The LocalDateTime object representing the date.
+     * @return True if the date is valid; false otherwise.
+     */
     public boolean isDateValid(LocalDateTime date) {
         if (date.getSecond() != 0) {
             return false;

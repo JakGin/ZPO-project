@@ -14,13 +14,24 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collections;
 import java.util.Optional;
 
+/**
+ * Controller class for managing Attendance entities.
+ */
 @RestController
-@RequestMapping(path="/api/attendances")
+@RequestMapping(path = "/api/attendances")
 public class AttendanceController {
+
     private final AttendanceRepository attendanceRepository;
     private final StudentRepository studentRepository;
     private final ClassDateRepository classDateRepository;
 
+    /**
+     * Constructor for AttendanceController.
+     *
+     * @param attendanceRepository  Repository for managing Attendance entities.
+     * @param studentRepository     Repository for managing Student entities.
+     * @param classDateRepository   Repository for managing ClassDate entities.
+     */
     public AttendanceController(AttendanceRepository attendanceRepository,
                                 StudentRepository studentRepository,
                                 ClassDateRepository classDateRepository) {
@@ -29,6 +40,12 @@ public class AttendanceController {
         this.classDateRepository = classDateRepository;
     }
 
+    /**
+     * Endpoint for creating a new Attendance record.
+     *
+     * @param attendance  The Attendance entity to be created.
+     * @return            ResponseEntity with a status code and a message indicating success or failure.
+     */
     @PostMapping("")
     @ResponseStatus(code = HttpStatus.CREATED)
     public ResponseEntity<String> createAttendance(@RequestBody Attendance attendance) {
@@ -73,7 +90,16 @@ public class AttendanceController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping(path="")
+    /**
+     * Endpoint for retrieving attendance records based on optional query parameters.
+     *
+     * @param studentId    Optional parameter for filtering attendance by student ID.
+     * @param classDateId  Optional parameter for filtering attendance by class date ID.
+     * @param id           Optional parameter for retrieving attendance by ID.
+     * @param status       Optional parameter for filtering attendance by status.
+     * @return             A collection of attendance records based on the provided parameters.
+     */
+    @GetMapping(path = "")
     public Iterable<Attendance> getAttendance(@RequestParam(required = false) Integer studentId,
                                               @RequestParam(required = false) Integer classDateId,
                                               @RequestParam(required = false) Integer id,
